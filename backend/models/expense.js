@@ -1,9 +1,9 @@
-const mongoose = require('mongoose')
-const CATEGORIES = require('../constants/categories')
+import mongoose from 'mongoose'
+import CATEGORIES from '../constants/categories'
 
 const ExpenseSchema = mongoose.Schema({
     user: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "User",
         required: true
     },
@@ -25,5 +25,5 @@ const ExpenseSchema = mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('Expense', ExpenseSchema)
+export default mongoose.model('Expense', ExpenseSchema)
 

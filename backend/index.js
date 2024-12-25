@@ -1,8 +1,10 @@
-const express = require('express')
-require('express-async-errors')
-require('dotenv').config()
+import express from 'express'
+import 'express-async-errors'
+import * as dotenv from "dotenv";
 
-const connectDB = require('./configs/database')
+dotenv.config();
+
+import connectDB from './configs/database.js'
 
 const server = express()
 
