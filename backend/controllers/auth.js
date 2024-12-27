@@ -1,4 +1,4 @@
-import { ReasonPhrases, StatusCodes } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
@@ -11,28 +11,6 @@ const createJWT = (userID) => {
         { expiresIn: parseInt(process.env.JWT_LIFETIME) }
     )
     return token
-}
-
-export const authenticate = async (req, res, next) => {
-    try {
-        const authHeader = req.headers.authorization
-    
-        if (!authHeader) {
-            return res.status(StatusCodes.UNAUTHORIZED).json({ error: "Unauthorized access" })
-        }
-    
-        const [scheme, token] = authHeader.split(' ')
-        if(scheme !== 'Bearer' || !token) {
-            return res.status(StatusCodes.UNAUTHORIZED).json({ error: "Unauthorized access" })
-        }
-
-        const verified = jwt.verify(token, process.env.JWT_SECRET)
-        req.userID = verified.id
-        
-        next()
-    } catch (err) {
-        return res.status(StatusCodes.UNAUTHORIZED).json({ msg: "Authentication failed", error: err.message });
-    }
 }
 
 export const test = async (req, res) => {
