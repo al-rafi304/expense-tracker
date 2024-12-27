@@ -1,9 +1,9 @@
 import mongoose from 'mongoose'
-import CATEGORIES from '../constants/categories'
+import { CATEGORIES } from "../constants/categories.js"
 
 const ExpenseSchema = mongoose.Schema({
     user: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true
     },

@@ -6,6 +6,7 @@ dotenv.config();
 
 import connectDB from './configs/database.js'
 import authRoutes from './routes/auth.js'
+import expenseRoutes from './routes/expense.js'
 
 const server = express()
 const port = process.env.PORT || 3000
@@ -13,6 +14,7 @@ const port = process.env.PORT || 3000
 
 server.use(express.json())
 server.use('/api/v1/auth', authRoutes)
+server.use('/api/v1/expense', expenseRoutes)
 
 const start = async () => {
     try {
