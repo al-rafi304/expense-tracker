@@ -57,6 +57,10 @@ export const addExpense = async (req, res) => {
 export const updateExpense = async (req, res) => {
     const id = req.params.id
     const { title, category, amount } = req.body
+
+    if ( category && !CATEGORIES.includes(category)) {
+        return res.status(StatusCodes.BAD_REQUEST).json({ error: "Invalid category name" })
+    }
     
     const expense = await Expense.findOne({ _id: id, user: req.userID })
     if (!expense) {
@@ -66,7 +70,7 @@ export const updateExpense = async (req, res) => {
     const oldAmount = expense.amount
     
     expense.title = title ? title : expense.title
-    expense.category = category ? title : expense.category
+    expense.category = category ? category : expense.category
     expense.amount = amount ? amount : expense.amount
     
     if (expense.amount !== oldAmount) {
