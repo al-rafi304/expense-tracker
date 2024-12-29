@@ -1,4 +1,3 @@
-import Expense from "../models/expense.js";
 import { Router } from "express";
 const router = Router();
 
@@ -7,6 +6,8 @@ import { validID } from "../middlewares/validate.js";
 import * as expense from '../controllers/expense.js'
 
 router.route('/categories').get(expense.getCategories)
+
+router.route('/filter').get(authenticate, expense.filterExpenses)
 
 router.route('/')
     .post(authenticate, expense.addExpense)

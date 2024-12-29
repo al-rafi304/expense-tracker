@@ -1,7 +1,9 @@
+import mongoose from "mongoose"
 import User from "../models/user.js"
 import Expense from "../models/expense.js"
 import { CATEGORIES } from "../constants/categories.js"
 import { StatusCodes } from "http-status-codes"
+import * as filter from "../constants/filter.js"
 
 export const getCategories = async (req, res) => {
     res.json({ categories: CATEGORIES })
@@ -97,4 +99,40 @@ export const deleteExpense = async (req, res) => {
     ])
     
     res.status(StatusCodes.OK).json({ message: "Deleted expense record", expense: expense })
+}
+
+export const filterExpenses = async (req, res) => {
+    const { groupBy, sortBy } = req.query
+    
+    if (!groupBy) {
+        return res.status(StatusCodes.BAD_REQUEST).json({ error: "Filter parameters not found" })
+    }
+
+    if (!filter.GROUP_BY.includes(groupBy)) {
+        return res.status(StatusCodes.BAD_REQUEST).json({ error: "Invalid filter parameters", query: req.query })
+    }
+
+    const groupKey = groupBy === 'date' 
+        ? { $dateToString: { format: '%Y-%m-%d', date: '$date' } } 
+        : `$${groupBy}`
+
+    const expenses = await Expense.aggregate([
+        { $match: { user: new mongoose.Types.ObjectId(`${req.userID}`) } },
+        {
+            $group: {
+                _id: groupKey,
+                totalAmount: { $sum: '$amount' },
+                expenses: {
+                    $push: '$$ROOT'
+                }
+            }
+        },
+        {
+            $sort: {
+                _id: filter.SORT_BY[sortBy] || 1 
+            }
+        }
+    ])
+
+    res.status(StatusCodes.OK).json({ filteredExpenses: expenses })
 }
