@@ -15,7 +15,7 @@ const port = process.env.PORT || 3000
 
 server.use(cors({
     origin: 'http://localhost:5173', // Allow requests from the Vite dev server
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], // Allow specific HTTP methods
     credentials: true, // If you need to send cookies or authorization headers
     exposedHeaders: 'Authorization',
   }));
