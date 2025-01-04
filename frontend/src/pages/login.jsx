@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate()
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -23,8 +25,9 @@ const LoginPage = () => {
             console.log(token)
             localStorage.setItem('JWT', token);
 
-            alert('Login successful!');
+            // alert('Login successful!');
             // Redirect or update the UI
+            navigate('/')
         } catch (error) {
             const errorMsg = error.response?.data?.error || 'Login failed. Please try again.';
             console.log(error)

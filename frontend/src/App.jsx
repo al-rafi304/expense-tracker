@@ -5,13 +5,15 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 import LoginPage from "./pages/login";
+import Dashboard from "./pages/dashboard"
 
 function App() {
 
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<LoginPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/" element={<Dashboard />} />
             </Routes>
         </Router>
     )

@@ -1,8 +1,9 @@
-'use client'
+// 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
+import { Link, useNavigate } from 'react-router-dom';
+// import { useRouter } from 'next/navigation'
+// import Link from 'next/link'
 
 export default function Dashboard() {
   const [user, setUser] = useState(null)
@@ -10,17 +11,18 @@ export default function Dashboard() {
   const [expense, setExpense] = useState({ title: '', category: '', amount: '' })
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const router = useRouter()
+  const router = useNavigate()
 
   useEffect(() => {
+    console.log("dahsboard")
     fetchUserData()
   }, [])
 
   const fetchUserData = async () => {
     try {
-      const response = await fetch('/api/user', {
+      const response = await fetch('http://localhost:8000/api/v1/user', {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${localStorage.getItem('JWT')}`
         }
       })
       if (!response.ok) {
@@ -29,6 +31,7 @@ export default function Dashboard() {
       const data = await response.json()
       setUser(data.user)
     } catch (err) {
+      router('/login')
       setError('Failed to fetch user data')
       console.error(err)
     } finally {
@@ -39,11 +42,11 @@ export default function Dashboard() {
   const updateFund = async (e) => {
     e.preventDefault()
     try {
-      const response = await fetch('/api/user/fund', {
+      const response = await fetch('http://localhost:8000/api/v1/user/fund', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${localStorage.getItem('JWT')}`
         },
         body: JSON.stringify({ fund: parseFloat(newFund) })
       })
@@ -61,11 +64,11 @@ export default function Dashboard() {
   const addExpense = async (e) => {
     e.preventDefault()
     try {
-      const response = await fetch('/api/expenses', {
+      const response = await fetch('http://localhost:8000/api/v1/expense', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${localStorage.getItem('JWT')}`
         },
         body: JSON.stringify(expense)
       })
