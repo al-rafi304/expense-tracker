@@ -165,7 +165,7 @@ export default function Dashboard() {
                 </div>
             </div>
             <div className="mt-4">
-                <Link href="/expenses" className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+                <Link to="/expenses" className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
                     View Expenses
                 </Link>
             </div>

@@ -6,14 +6,16 @@ import './App.css'
 
 import LoginPage from "./pages/login";
 import Dashboard from "./pages/dashboard"
+import Expenses from "./pages/expenses";
 
 function App() {
 
     return (
         <Router>
             <Routes>
-                <Route path="/login" element={<LoginPage />} />
                 <Route path="/" element={<Dashboard />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/expenses" element={<Expenses />} />
             </Routes>
         </Router>
     )
